@@ -6,4 +6,5 @@ export interface EnvConfig {
   getDbUser(): string;
   getPort(): number;
   getNodeEnv(): string;
+  getEncryptionSalts(): number;
 }

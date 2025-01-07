@@ -33,4 +33,12 @@ export class EnvConfigService implements EnvConfig {
   getNodeEnv(): string {
     return this.configService.get<string>('NODE_ENV');
   }
+
+  getEncryptionSalts(): number {
+    console.log(
+      'ENCRYPTION_SALTS:',
+      this.configService.get<string>('ENCRYPTION_SALTS'),
+    );
+    return +this.configService.get<string>('ENCRYPTION_SALTS');
+  }
 }

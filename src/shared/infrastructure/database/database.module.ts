@@ -4,6 +4,10 @@ import { EnvConfigService } from '../envConfig/envConfig.service';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OwnerAddressSchema } from 'src/core/owner-address/infrastructure/ownerAddress.schema';
+import { AddressSchema } from 'src/core/address/infrastructure/address.schema';
+import { CompanySchema } from 'src/core/company/infrastructure/company.schema';
+import { UserSchema } from 'src/core/user/infrastructure/user.schema';
 
 @Module({
   imports: [
@@ -16,7 +20,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: envConfig.getDbUser(),
         password: envConfig.getDbPassword(),
         database: envConfig.getDbName(),
-        entities: [],
+        entities: [
+          OwnerAddressSchema,
+          AddressSchema,
+          CompanySchema,
+          UserSchema,
+        ],
         migrations: [`${__dirname}/migration/{.ts,*.js}`],
         migrationsRun: true,
         synchronize: false,
