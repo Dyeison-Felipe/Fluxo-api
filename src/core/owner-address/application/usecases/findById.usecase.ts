@@ -1,4 +1,4 @@
-import { OwnerAddressOutput } from 'src/shared/application/dto/output/ownerAddress.output';
+import { OwnerAddressOutput } from 'src/shared/application/output/ownerAddress.output';
 import { OwnerAddressRepository } from '../../domain/ownerAddress.repository';
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';

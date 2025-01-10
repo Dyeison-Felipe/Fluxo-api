@@ -1,6 +1,6 @@
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { OwnerAddressRepository } from '../../domain/ownerAddress.repository';
-import { OwnerAddressOutput } from 'src/shared/application/dto/output/ownerAddress.output';
+import { OwnerAddressOutput } from 'src/shared/application/output/ownerAddress.output';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 type Input = {

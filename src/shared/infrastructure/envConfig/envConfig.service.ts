@@ -35,10 +35,6 @@ export class EnvConfigService implements EnvConfig {
   }
 
   getEncryptionSalts(): number {
-    console.log(
-      'ENCRYPTION_SALTS:',
-      this.configService.get<string>('ENCRYPTION_SALTS'),
-    );
     return +this.configService.get<string>('ENCRYPTION_SALTS');
   }
 }

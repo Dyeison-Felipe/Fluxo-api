@@ -1,5 +1,5 @@
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
-import { UserOutput } from 'src/shared/application/dto/output/user.output';
+import { UserOutput } from 'src/shared/application/output/user.output';
 import { Encryption } from 'src/shared/application/utils/encryption/encryption';
 import { ConflictError } from 'src/shared/application/errors/conflictExceptionError';
 import { User } from '../../domain/user.entity';

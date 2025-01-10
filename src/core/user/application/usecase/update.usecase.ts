@@ -1,4 +1,4 @@
-import { UserOutput } from 'src/shared/application/dto/output/user.output';
+import { UserOutput } from 'src/shared/application/output/user.output';
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { UserRepository } from '../../domain/user.interface';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
