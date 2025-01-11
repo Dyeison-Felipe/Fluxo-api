@@ -16,6 +16,10 @@ export class UpdateOwnerTypeUseCase implements UseCase<Input, Output> {
   constructor(private readonly ownerTypeRepository: OwnerTypeRepository) {}
 
   async execute(input: Input): Promise<OwnerTypeOutput> {
+    if (!input.id) {
+      throw new BadRequestError('Owner id cannot be null or empty');
+    }
+
     if (!input.type) {
       throw new BadRequestError('Owner type cannot be null or empty');
     }

@@ -103,4 +103,22 @@ describe('UpdateOwnerTypeUseCase', () => {
     expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(0);
     expect(ownerTypeRepository.update).toHaveBeenCalledTimes(0);
   });
+
+  it('Should throw as error if the owner type is empty', async () => {
+    const input: Input = { id: 1, type: '' };
+
+    await expect(updateUseCase.execute(input)).rejects.toThrow(BadRequestError);
+    expect(ownerTypeRepository.findById).toHaveBeenCalledTimes(0);
+    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(0);
+    expect(ownerTypeRepository.update).toHaveBeenCalledTimes(0);
+  });
+
+  it('Should throw as error if the owner id is null', async () => {
+    const input: Input = { id: null, type: 'Company' };
+
+    await expect(updateUseCase.execute(input)).rejects.toThrow(BadRequestError);
+    expect(ownerTypeRepository.findById).toHaveBeenCalledTimes(0);
+    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(0);
+    expect(ownerTypeRepository.update).toHaveBeenCalledTimes(0);
+  });
 });
