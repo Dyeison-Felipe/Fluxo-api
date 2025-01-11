@@ -5,7 +5,7 @@ type OwnerAddressProps = AuditableProps & {
   type: string;
 };
 
-export class OwnerAddress extends Auditable {
+export class OwnerType extends Auditable {
   id: number;
   type: string;
 

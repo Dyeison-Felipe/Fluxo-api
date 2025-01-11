@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateOwnerAddressDto {
+export class UpdateOwnerTypeDto {
   @ApiProperty({ description: 'Owner Id' })
   @IsInt()
   @IsNotEmpty()

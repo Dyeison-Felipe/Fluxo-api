@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableOwnerAddress1735509014018
-  implements MigrationInterface
-{
+export class CreateTableOwnerType1736559884577 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'ownerAddress',
+        name: 'ownerType',
         columns: [
           {
             name: 'id',

@@ -10,14 +10,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateOwnerAddressUseCase } from '../application/usecases/create.usecase';
-import { CreateOwnerAddressDto } from './dtos/createOwnerAddress.dto';
-import { OwnerAddressPresenter } from 'src/shared/infrastructure/presenters/ownerAddress.presenter';
-import { FindAllUseCase } from '../application/usecases/findAll.usecase';
-import { FindByIdUseCase } from '../application/usecases/findById.usecase';
-import { UpdateUseCase } from '../application/usecases/update.usecase';
-import { UpdateOwnerAddressDto } from './dtos/updateOwnerAddress.dto';
-import { DeleteUseCase } from '../application/usecases/delete.usecase';
+import { CreateOwnerTypeUseCase } from '../application/usecases/create.usecase';
+import { CreateOwnerTypeDto } from './dtos/createOwnerType.dto';
+import { OwnerTypePresenter } from 'src/shared/infrastructure/presenters/ownerAddress.presenter';
+import { FindAllOwnerTypeUseCaseUseCase } from '../application/usecases/findAll.usecase';
+import { FindOwnerTypeByIdUseCase } from '../application/usecases/findById.usecase';
+import { UpdateOwnerTypeUseCase } from '../application/usecases/update.usecase';
+import { UpdateOwnerTypeDto } from './dtos/updateOwnerType.dto';
+import { DeleteOwnerTypeUseCase } from '../application/usecases/delete.usecase';
 import {
   ApiBody,
   ApiOperation,
@@ -25,7 +25,7 @@ import {
   ApiTags,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { FindAllPaginatedUseCase } from '../application/usecases/findAllPaginate';
+import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAllPaginate';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
 import {
@@ -36,24 +36,24 @@ import {
 
 @ApiTags('Owner Address')
 @Controller('api/owner-address/v1')
-export class OwnerAddressController {
+export class OwnerTypeController {
   constructor(
-    private readonly createUseCase: CreateOwnerAddressUseCase,
-    private readonly findAllUseCase: FindAllUseCase,
-    private readonly findByIdUseCase: FindByIdUseCase,
-    private readonly updateUseCase: UpdateUseCase,
-    private readonly deleteUseCase: DeleteUseCase,
-    private readonly findAllPaginatedUseCase: FindAllPaginatedUseCase,
+    private readonly createUseCase: CreateOwnerTypeUseCase,
+    private readonly findAllUseCase: FindAllOwnerTypeUseCaseUseCase,
+    private readonly findByIdUseCase: FindOwnerTypeByIdUseCase,
+    private readonly updateUseCase: UpdateOwnerTypeUseCase,
+    private readonly deleteUseCase: DeleteOwnerTypeUseCase,
+    private readonly findAllPaginatedUseCase: FindAllOwnerTypePaginatedUseCase,
   ) {}
 
-  @ApiOperation({ summary: 'Get all address owner ' })
+  @ApiOperation({ summary: 'Get all types owner ' })
   @ApiResponse({
     status: 200,
     schema: {
       type: 'object',
       properties: {
         ...findAllSchemaDocs,
-        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerAddressPresenter) }),
+        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerTypePresenter) }),
       },
     },
   })
@@ -62,19 +62,19 @@ export class OwnerAddressController {
     description: 'unknown error',
   })
   @Get('/find-all')
-  async findAll(): Promise<OwnerAddressPresenter[]> {
+  async findAll(): Promise<OwnerTypePresenter[]> {
     const list = await this.findAllUseCase.execute();
     return list;
   }
 
-  @ApiOperation({ summary: 'Get all address owner paged' })
+  @ApiOperation({ summary: 'Get all types owner paged' })
   @ApiResponse({
     status: 200,
     schema: {
       type: 'object',
       properties: {
         ...PaginationSchemaDocs,
-        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerAddressPresenter) }),
+        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerTypePresenter) }),
       },
     },
   })
@@ -85,20 +85,20 @@ export class OwnerAddressController {
   @Get('/paginated')
   async findAllPaginated(
     @Query() paginationDto: PaginationDto,
-  ): Promise<Pagination<OwnerAddressPresenter>> {
+  ): Promise<Pagination<OwnerTypePresenter>> {
     const result = await this.findAllPaginatedUseCase.execute(paginationDto);
 
     return result;
   }
 
-  @ApiOperation({ summary: 'Get address owner by id' })
+  @ApiOperation({ summary: 'Get types owner by id' })
   @ApiResponse({
     status: 200,
     schema: {
       type: 'array',
       properties: {
         ...findAllSchemaDocs,
-        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerAddressPresenter) }),
+        ...getItemsSchemaDocs({ $ref: getSchemaPath(OwnerTypePresenter) }),
       },
     },
   })
@@ -107,17 +107,17 @@ export class OwnerAddressController {
     description: 'unknown error',
   })
   @Get('/:id')
-  async findById(@Param('id') id: number): Promise<OwnerAddressPresenter> {
+  async findById(@Param('id') id: number): Promise<OwnerTypePresenter> {
     const ownerAddressId = await this.findByIdUseCase.execute({ id });
 
     return ownerAddressId;
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create address owner' })
+  @ApiOperation({ summary: 'Create types owner' })
   @ApiResponse({
     status: 201,
-    type: OwnerAddressPresenter,
+    type: OwnerTypePresenter,
   })
   @ApiResponse({
     status: 401,
@@ -135,20 +135,20 @@ export class OwnerAddressController {
     status: 500,
     description: 'unknown error',
   })
-  @ApiBody({ type: CreateOwnerAddressDto })
+  @ApiBody({ type: CreateOwnerTypeDto })
   async create(
-    @Body() createOwnerAddressDto: CreateOwnerAddressDto,
-  ): Promise<OwnerAddressPresenter> {
-    const create = await this.createUseCase.execute(createOwnerAddressDto);
+    @Body() createOwnerTypeDto: CreateOwnerTypeDto,
+  ): Promise<OwnerTypePresenter> {
+    const create = await this.createUseCase.execute(createOwnerTypeDto);
 
     return create;
   }
 
   @Put()
-  @ApiOperation({ summary: 'update address owner' })
+  @ApiOperation({ summary: 'update types owner' })
   @ApiResponse({
     status: 201,
-    type: OwnerAddressPresenter,
+    type: OwnerTypePresenter,
   })
   @ApiResponse({
     status: 401,
@@ -166,18 +166,18 @@ export class OwnerAddressController {
     status: 500,
     description: 'unknown error',
   })
-  @ApiBody({ type: UpdateOwnerAddressDto })
+  @ApiBody({ type: UpdateOwnerTypeDto })
   async update(
-    @Body() updateOwnerAddressDto: UpdateOwnerAddressDto,
-  ): Promise<OwnerAddressPresenter> {
-    const update = await this.updateUseCase.execute(updateOwnerAddressDto);
+    @Body() updateOwnerTypeDto: UpdateOwnerTypeDto,
+  ): Promise<OwnerTypePresenter> {
+    const update = await this.updateUseCase.execute(updateOwnerTypeDto);
 
     return update;
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete('/:id')
-  @ApiOperation({ summary: 'delete address owner' })
+  @ApiOperation({ summary: 'delete types owner' })
   @ApiResponse({
     status: 200,
     description: 'ok',

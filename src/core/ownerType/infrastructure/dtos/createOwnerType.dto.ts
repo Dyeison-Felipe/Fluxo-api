@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateOwnerAddressDto {
+export class CreateOwnerTypeDto {
   @ApiProperty({ description: 'Owner Type' })
   @IsString()
   @IsNotEmpty()

@@ -1,6 +1,6 @@
 import { AuditableOutput } from './autitable.output';
 
-export type OwnerAddressOutput = AuditableOutput & {
+export type OwnerTypeOutput = AuditableOutput & {
   id: number;
   type: string;
 };

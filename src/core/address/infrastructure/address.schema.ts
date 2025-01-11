@@ -1,5 +1,5 @@
 import { CompanySchema } from 'src/core/company/infrastructure/company.schema';
-import { OwnerAddressSchema } from 'src/core/owner-address/infrastructure/ownerAddress.schema';
+import { OwnerTypeSchema } from 'src/core/ownerType/infrastructure/ownerType.schema';
 import { AuditableSchema } from 'src/shared/infrastructure/auditable.schema';
 import {
   Column,
@@ -40,8 +40,8 @@ export class AddressSchema extends AuditableSchema {
   complement: string;
 
   @JoinColumn()
-  @ManyToOne(() => OwnerAddressSchema, (ownerAddress) => ownerAddress.address)
-  ownerAddressId: OwnerAddressSchema;
+  @ManyToOne(() => OwnerTypeSchema, (ownerAddress) => ownerAddress.address)
+  ownerAddressId: OwnerTypeSchema;
 
   @OneToOne(() => CompanySchema, (company) => company.addressId)
   companyId: CompanySchema;
