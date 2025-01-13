@@ -37,4 +37,12 @@ export class EnvConfigService implements EnvConfig {
   getEncryptionSalts(): number {
     return +this.configService.get<string>('ENCRYPTION_SALTS');
   }
+
+  getUserEmailApplication(): string {
+    return this.configService.get<string>('APPLICATION_MAIL_USER');
+  }
+
+  getUserPasswordApplication(): string {
+    return this.configService.get<string>('APPLICATION_MAIL_PASSWORD');
+  }
 }

@@ -1,5 +1,5 @@
 import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
-import { Input, UpdateOwnerTypeUseCase } from '../update.usecase';
+import { Input, UpdateOwnerTypeUseCase } from '../../update.usecase';
 import { OwnerType } from 'src/core/ownerType/domain/ownerType.entity';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
 import { ConflictError } from 'src/shared/application/errors/conflictExceptionError';

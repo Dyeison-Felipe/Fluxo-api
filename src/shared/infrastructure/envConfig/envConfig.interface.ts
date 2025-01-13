@@ -7,4 +7,6 @@ export interface EnvConfig {
   getPort(): number;
   getNodeEnv(): string;
   getEncryptionSalts(): number;
+  getUserEmailApplication(): string;
+  getUserPasswordApplication(): string;
 }

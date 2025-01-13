@@ -1,8 +1,9 @@
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { OwnerTypeRepository } from '../../domain/ownerType.repository';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
+import { BadRequestError } from 'src/shared/application/errors/badRequest';
 
-type Input = {
+export type Input = {
   id: number;
 };
 
@@ -12,6 +13,10 @@ export class DeleteOwnerTypeUseCase implements UseCase<Input, Output> {
   constructor(private readonly ownerTypeRepository: OwnerTypeRepository) {}
 
   async execute({ id }: Input): Promise<Output> {
+    if (!id) {
+      throw new BadRequestError(`Owner id cannot be null or empty`);
+    }
+
     const exist = await this.ownerTypeRepository.findById(id);
 
     if (!exist) {

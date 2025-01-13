@@ -7,11 +7,8 @@ import { Encryption } from 'src/shared/application/utils/encryption/encryption';
 import { UtilsModule } from 'src/shared/infrastructure/utils/utils.module';
 import { UserController } from './user.controller';
 import { UserSchema } from './user.schema';
-import {
-  ENCRYPTION,
-  USER_REPOSITORY_IMPL,
-} from 'src/shared/infrastructure/constants/moduleConstants';
 import { UpdateUserUseCase } from '../application/usecase/update.usecase';
+import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserSchema]), UtilsModule],
@@ -20,7 +17,7 @@ import { UpdateUserUseCase } from '../application/usecase/update.usecase';
     CreateUserUseCase,
     UpdateUserUseCase,
     {
-      provide: USER_REPOSITORY_IMPL,
+      provide: Providers.USER_REPOSITORY_IMPL,
       useClass: UserRepositoryImpl,
     },
     {
@@ -28,16 +25,16 @@ import { UpdateUserUseCase } from '../application/usecase/update.usecase';
       useFactory: (user: UserRepository, encryption: Encryption) => {
         return new CreateUserUseCase(user, encryption);
       },
-      inject: [USER_REPOSITORY_IMPL, ENCRYPTION],
+      inject: [Providers.USER_REPOSITORY_IMPL, Providers.ENCRYPTION],
     },
     {
       provide: UpdateUserUseCase,
       useFactory: (user: UserRepository) => {
         return new UpdateUserUseCase(user);
       },
-      inject: [USER_REPOSITORY_IMPL],
+      inject: [Providers.USER_REPOSITORY_IMPL],
     },
   ],
-  exports: [],
+  exports: [Providers.USER_REPOSITORY_IMPL],
 })
 export class UserModule {}

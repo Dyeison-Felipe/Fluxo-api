@@ -1,5 +1,5 @@
 import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
-import { FindAllOwnerTypePaginatedUseCase } from '../findAllPaginate';
+import { FindAllOwnerTypePaginatedUseCase } from '../../findAllPaginate';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
 
 const mockOwnerTypeRepository = (): Partial<OwnerTypeRepository> => ({

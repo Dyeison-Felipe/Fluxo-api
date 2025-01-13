@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CreateOwnerTypeUseCase } from '../application/usecases/create.usecase';
-import { OwnerTypeImpl } from './ownerType.repository';
+import { OwnerTypeRepositoryImpl } from './repository/ownerType.repository';
 import { OwnerTypeRepository } from '../domain/ownerType.repository';
 import { OwnerTypeController } from './ownerType.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { FindOwnerTypeByIdUseCase } from '../application/usecases/findById.useca
 import { UpdateOwnerTypeUseCase } from '../application/usecases/update.usecase';
 import { DeleteOwnerTypeUseCase } from '../application/usecases/delete.usecase';
 import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAllPaginate';
+import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OwnerTypeSchema])],
@@ -22,51 +23,52 @@ import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAl
     DeleteOwnerTypeUseCase,
     FindAllOwnerTypePaginatedUseCase,
     {
-      provide: OwnerTypeImpl,
-      useClass: OwnerTypeImpl,
+      provide: Providers.OWNER_TYPE,
+      useClass: OwnerTypeRepositoryImpl,
     },
     {
       provide: CreateOwnerTypeUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new CreateOwnerTypeUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
     {
       provide: FindAllOwnerTypeUseCaseUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new FindAllOwnerTypeUseCaseUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
     {
       provide: FindOwnerTypeByIdUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new FindOwnerTypeByIdUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
     {
       provide: UpdateOwnerTypeUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new UpdateOwnerTypeUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
     {
       provide: DeleteOwnerTypeUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new DeleteOwnerTypeUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
     {
       provide: FindAllOwnerTypePaginatedUseCase,
       useFactory: (ownerAddress: OwnerTypeRepository) => {
         return new FindAllOwnerTypePaginatedUseCase(ownerAddress);
       },
-      inject: [OwnerTypeImpl],
+      inject: [Providers.OWNER_TYPE],
     },
   ],
+  exports: [Providers.OWNER_TYPE],
 })
 export class OwnerTypeModule {}

@@ -1,6 +1,6 @@
 import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
 import { ConflictError } from 'src/shared/application/errors/conflictExceptionError';
-import { CreateOwnerTypeUseCase, Input } from '../create.usecase';
+import { CreateOwnerTypeUseCase, Input } from '../../create.usecase';
 import { OwnerType } from 'src/core/ownerType/domain/ownerType.entity';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
 

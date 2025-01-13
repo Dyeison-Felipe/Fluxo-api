@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { OwnerTypeRepository } from '../domain/ownerType.repository';
-import { OwnerType } from '../domain/ownerType.entity';
-import { OwnerTypeSchema } from './ownerType.schema';
+import { OwnerTypeRepository } from '../../domain/ownerType.repository';
+import { OwnerType } from '../../domain/ownerType.entity';
+import { OwnerTypeSchema } from '../ownerType.schema';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   IPaginationOptions,
@@ -9,7 +9,7 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 
-export class OwnerTypeImpl implements OwnerTypeRepository {
+export class OwnerTypeRepositoryImpl implements OwnerTypeRepository {
   constructor(
     @InjectRepository(OwnerTypeSchema)
     private readonly ownerTypeRepository: Repository<OwnerTypeSchema>,
