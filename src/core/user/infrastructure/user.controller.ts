@@ -1,16 +1,21 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Post, Put, Res } from '@nestjs/common';
 import { CreateUserUseCase } from '../application/usecase/create.usecase';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserPresenter } from 'src/shared/infrastructure/presenters/user.presenter';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import { UpdateUserUseCase } from '../application/usecase/update.usecase';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { LoginUseCase } from '../application/usecase/login.usecase';
+import { LoginUserDto } from './dtos/login.dto';
+import { LoginPresenter } from 'src/shared/infrastructure/presenters/login.presenter';
+import { FastifyReply } from 'fastify';
 
 @Controller('/api/user/v1')
 export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
+    private readonly loginUseCase: LoginUseCase,
   ) {}
 
   @Post()
@@ -69,5 +74,17 @@ export class UserController {
     const updateUser = await this.updateUserUseCase.execute(updateUserDto);
 
     return updateUser;
+  }
+
+  @Post('/login')
+  async login(
+    @Res({ passthrough: true }) reply: FastifyReply,
+    @Body() loginDto: LoginUserDto,
+  ): Promise<LoginPresenter> {
+    const output = await this.loginUseCase.execute({
+      ...loginDto,
+      setCookies: reply.setCookie.bind(reply),
+    });
+    return new LoginPresenter(output);
   }
 }

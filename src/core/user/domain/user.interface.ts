@@ -5,4 +5,5 @@ export interface UserRepository {
   update(updateDto: User): Promise<User>;
   existUsername(username: string): Promise<boolean>;
   existUser(id: number): Promise<User>;
+  getUserByUsername(username: string): Promise<User>;
 }

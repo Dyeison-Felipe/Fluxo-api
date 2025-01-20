@@ -3,10 +3,13 @@ import { Module } from '@nestjs/common';
 import { EnvConfig } from '../../envConfig/envConfig.interface';
 import { Providers } from '../../constants/moduleConstants';
 import { MailServiceImpl } from './mail.service';
+import { EnvConfigModule } from '../../envConfig/envConfig.module';
 
 @Module({
   imports: [
+    EnvConfigModule,
     MailerModule.forRootAsync({
+      imports: [EnvConfigModule],
       useFactory: (envConfig: EnvConfig) => ({
         transport: {
           host: 'smtp.gmail.com',

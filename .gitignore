@@ -11,7 +11,8 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+*.txt
+*.env.development
 # OS
 .DS_Store
 

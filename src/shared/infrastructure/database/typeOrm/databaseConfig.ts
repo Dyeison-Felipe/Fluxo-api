@@ -1,29 +1,29 @@
 import { EnvConfigService } from '../../envConfig/envConfig.service';
 import { ConfigService } from '@nestjs/config';
-import {
-  Connection,
-  ConnectionOptions,
-  createConnection,
-} from 'mysql2/promise';
+import { Connection, createConnection } from 'mysql2/promise';
 import { AddressSchema } from 'src/core/address/infrastructure/address.schema';
 import { CompanySchema } from 'src/core/company/infrastructure/company.schema';
 import { OwnerTypeSchema } from 'src/core/ownerType/infrastructure/ownerType.schema';
 import { UserSchema } from 'src/core/user/infrastructure/user.schema';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 const envConfig = new EnvConfigService(new ConfigService());
 
-export async function setupDatabase(options: ConnectionOptions): Promise<void> {
+export async function setupDatabase(
+  options: MysqlConnectionOptions,
+): Promise<void> {
+  console.log('🚀 ~ setupDatabase ~ options:', options);
   let connection: Connection | null = null;
 
   try {
     // Conectar ao banco de dados MySQL
     connection = await createConnection({
-      host: options.host as string,
+      host: options.host,
       port: options.port as number,
-      user: options.user as string,
-      password: options.password as string,
-      database: options.database as string,
+      user: options.username,
+      password: options.password,
+      database: options.database,
     });
 
     // Verificar se o banco de dados existe
@@ -38,7 +38,7 @@ export async function setupDatabase(options: ConnectionOptions): Promise<void> {
       console.log(`Banco de dados ${options.database} criado.`);
     }
   } catch (error) {
-    console.error(`Erro ao criar banco de dados: ${options.database}`, error);
+    console.error(`Erro ao criar banco de dados ${options.database}: `, error);
   } finally {
     if (connection) {
       await connection.end();

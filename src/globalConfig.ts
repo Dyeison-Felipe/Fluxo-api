@@ -4,6 +4,9 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ResourceNotFoundErrorFilter } from './shared/infrastructure/exeptionsFilter/resourceNotFoundFilter';
 import { ValidationPipe } from '@nestjs/common';
 import { ConflictErrorFilter } from './shared/infrastructure/exeptionsFilter/conflictExeprionErrorFilter';
+import fastifyCookie from '@fastify/cookie';
+import { UnauthorizedExceptionErrorFilter } from './shared/infrastructure/exeptionsFilter/unauthorizedExceptionErrorFilter';
+import { InvalidTokenErrorFilter } from './shared/infrastructure/exeptionsFilter/InvalidTokenErrorFilter';
 
 export async function applyGlobalConfig(
   app: NestFastifyApplication,
@@ -38,9 +41,25 @@ export async function applyGlobalConfig(
   );
   app.useGlobalPipes(new ValidationPipe());
 
+  // Cookies config
+  await app.register(fastifyCookie, {
+    secret: envConfigService.getCookiesSecret(),
+  });
+
+  // Config Cors
+  app.enableCors({
+    origin: envConfigService.getOrigin(),
+    methods: envConfigService.getMethods(),
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  });
+
   // Error Filters Config
   app.useGlobalFilters(
     new ResourceNotFoundErrorFilter(),
     new ConflictErrorFilter(),
+    new UnauthorizedExceptionErrorFilter(),
+    new InvalidTokenErrorFilter(),
   );
 }

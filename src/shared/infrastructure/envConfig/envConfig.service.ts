@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { EnvConfig } from './envConfig.interface';
+import { EnvConfig, NodeEnv } from './envConfig.interface';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EnvConfigService implements EnvConfig {
   constructor(private readonly configService: ConfigService) {}
+  getOrigin(): string {
+    return this.configService.get<string>('ORIGIN_CORS');
+  }
+
+  getMethods(): string {
+    return this.configService.get<string>('METHODS_CORS');
+  }
 
   getDbPort(): number {
     return +this.configService.get<number>('DB_PORT');
@@ -30,12 +37,16 @@ export class EnvConfigService implements EnvConfig {
     return +this.configService.get<number>('PORT');
   }
 
-  getNodeEnv(): string {
-    return this.configService.get<string>('NODE_ENV');
+  getNodeEnv(): NodeEnv {
+    return this.configService.get<NodeEnv>('NODE_ENV');
   }
 
   getEncryptionSalts(): number {
     return +this.configService.get<string>('ENCRYPTION_SALTS');
+  }
+
+  getCookiesSecret(): string {
+    return this.configService.get<string>('COOKIE_SECRET');
   }
 
   getUserEmailApplication(): string {
@@ -44,5 +55,21 @@ export class EnvConfigService implements EnvConfig {
 
   getUserPasswordApplication(): string {
     return this.configService.get<string>('APPLICATION_MAIL_PASSWORD');
+  }
+
+  getJwtSecret(): string {
+    return this.configService.get<string>('JWT_SECRET');
+  }
+
+  getExpiresIn(): number {
+    return this.configService.get<number>('JWT_EXPIRES_IN');
+  }
+
+  getRefreshTokenSecret(): string {
+    return this.configService.get<string>('REFRESH_TOKEN_SECRET');
+  }
+
+  getRefreshExpiresIn(): number {
+    return this.configService.get<number>('REFRESH_EXPIRES_IN');
   }
 }

@@ -10,7 +10,7 @@ type Input = {
   password: string;
 };
 
-type Output = UserOutput;
+export type Output = UserOutput;
 
 export class CreateUserUseCase implements UseCase<Input, Output> {
   constructor(
@@ -34,7 +34,13 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
 
     const createUser = await this.userRepository.create(userEntity);
 
-    const output: Output = createUser;
+    const output: Output = {
+      id: createUser.id,
+      username: createUser.username,
+      createdAt: createUser.createdAt,
+      updatedAt: createUser.updatedAt,
+      deletedAt: createUser.deletedAt,
+    };
 
     return output;
   }

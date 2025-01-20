@@ -32,4 +32,10 @@ export class UserRepositoryImpl implements UserRepository {
     });
     return existUser;
   }
+
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({ username });
+
+    return user;
+  }
 }

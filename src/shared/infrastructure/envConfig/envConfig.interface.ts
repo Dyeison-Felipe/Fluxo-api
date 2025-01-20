@@ -1,3 +1,5 @@
+export type NodeEnv = 'production' | 'development' | 'test';
+
 export interface EnvConfig {
   getDbPort(): number;
   getDbHost(): string;
@@ -5,8 +7,15 @@ export interface EnvConfig {
   getDbPassword(): string;
   getDbUser(): string;
   getPort(): number;
-  getNodeEnv(): string;
+  getNodeEnv(): NodeEnv;
   getEncryptionSalts(): number;
+  getCookiesSecret(): string;
   getUserEmailApplication(): string;
   getUserPasswordApplication(): string;
+  getJwtSecret(): string;
+  getExpiresIn(): number;
+  getRefreshTokenSecret(): string;
+  getRefreshExpiresIn(): number;
+  getOrigin(): string;
+  getMethods(): string;
 }

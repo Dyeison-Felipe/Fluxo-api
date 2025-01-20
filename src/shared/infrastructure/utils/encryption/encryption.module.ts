@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { EnvConfigModule } from '../envConfig/envConfig.module';
-import { EncryptionImpl } from './encryption';
-import { EnvConfig } from '../envConfig/envConfig.interface';
-import { Providers } from '../constants/moduleConstants';
+import { EnvConfigModule } from '../../envConfig/envConfig.module';
+import { EncryptionImpl } from './encryption.service';
+import { EnvConfig } from '../../envConfig/envConfig.interface';
+import { Providers } from '../../constants/moduleConstants';
 
 @Module({
   imports: [EnvConfigModule],
@@ -21,4 +21,4 @@ import { Providers } from '../constants/moduleConstants';
   ],
   exports: [Providers.ENCRYPTION],
 })
-export class UtilsModule {}
+export class EncryptionModule {}

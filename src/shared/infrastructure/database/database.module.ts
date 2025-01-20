@@ -6,7 +6,7 @@ import {
   dataSourceOptions,
   setupDatabase,
 } from './typeOrm/databaseConfig';
-import { ConnectionOptions } from 'mysql2';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { ConnectionOptions } from 'mysql2';
           throw new Error('Invalid options passed');
         }
 
-        await setupDatabase(options as ConnectionOptions);
+        await setupDatabase(options as MysqlConnectionOptions);
 
         return addTransactionalDataSource(connectionSource);
       },
