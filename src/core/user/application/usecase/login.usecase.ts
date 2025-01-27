@@ -1,7 +1,7 @@
-import { UserOutput } from 'src/shared/application/output/user.output';
+import { UserOutput } from 'src/core/user/infrastructure/output/user.output';
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { SetCookies } from 'src/shared/application/utils/cookies/cookies';
-import { UserRepository } from '../../domain/user.interface';
+import { UserRepository } from '../../domain/repository/user.repository';
 import { Encryption } from 'src/shared/application/utils/encryption/encryption';
 import { ErrorMessages } from 'src/shared/application/constants/errorMessages';
 import { UnauthorizedExceptionError } from 'src/shared/application/errors/unauthorizedExceptionError';
@@ -27,7 +27,7 @@ export class LoginUseCase implements UseCase<Input, Output> {
     const user = await this.userRepository.getUserByUsername(input.username);
 
     if (!user) {
-      throw new UnauthorizedExceptionError(ErrorMessages.ACCESS_INVALID);
+      throw new UnauthorizedExceptionError(ErrorMessages.accessInvalid());
     }
 
     const validPassword = await this.encryption.compareHash(
@@ -36,7 +36,7 @@ export class LoginUseCase implements UseCase<Input, Output> {
     );
 
     if (!validPassword) {
-      throw new UnauthorizedExceptionError(ErrorMessages.ACCESS_INVALID);
+      throw new UnauthorizedExceptionError(ErrorMessages.accessInvalid());
     }
 
     await this.authenticateAndHandleTokens(user, input.setCookies);
@@ -56,5 +56,6 @@ export class LoginUseCase implements UseCase<Input, Output> {
       refreshToken,
       setCookies,
     });
+    console.log('Cookies set:', { accessToken, refreshToken });
   }
 }

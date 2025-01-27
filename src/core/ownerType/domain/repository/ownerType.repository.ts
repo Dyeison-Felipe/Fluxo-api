@@ -1,5 +1,5 @@
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
-import { OwnerType } from './ownerType.entity';
+import { OwnerType } from '../ownerType.entity';
 
 export interface OwnerTypeRepository {
   findAll(): Promise<OwnerType[]>;

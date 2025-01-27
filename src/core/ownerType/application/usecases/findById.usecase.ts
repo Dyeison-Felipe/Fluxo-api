@@ -1,7 +1,7 @@
-import { OwnerTypeOutput } from 'src/shared/application/output/ownerType.output';
-import { OwnerTypeRepository } from '../../domain/ownerType.repository';
+import { OwnerTypeOutput } from 'src/core/ownerType/infrastructure/output/ownerType.output';
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
+import { OwnerTypeRepository } from '../../domain/repository/ownerType.repository';
 
 type Input = {
   id: number;

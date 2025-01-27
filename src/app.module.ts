@@ -10,6 +10,7 @@ import { JwtServiceModule } from './shared/infrastructure/utils/jwtService/jwtNe
 import { EncryptionModule } from './shared/infrastructure/utils/encryption/encryption.module';
 import { AuthModule } from './shared/infrastructure/utils/auth/auth.module';
 import { MailServiceModule } from './shared/infrastructure/utils/mail/mail.module';
+import { RoleModule } from './core/roles/infrastructure/role.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MailServiceModule } from './shared/infrastructure/utils/mail/mail.modul
     EncryptionModule,
     AuthModule,
     MailServiceModule,
+    RoleModule,
   ],
   controllers: [],
   providers: [],

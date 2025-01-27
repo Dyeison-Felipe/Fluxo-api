@@ -10,14 +10,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateOwnerTypeUseCase } from '../application/usecases/create.usecase';
-import { CreateOwnerTypeDto } from './dtos/createOwnerType.dto';
-import { OwnerTypePresenter } from 'src/shared/infrastructure/presenters/ownerAddress.presenter';
-import { FindAllOwnerTypeUseCaseUseCase } from '../application/usecases/findAll.usecase';
-import { FindOwnerTypeByIdUseCase } from '../application/usecases/findById.usecase';
-import { UpdateOwnerTypeUseCase } from '../application/usecases/update.usecase';
-import { UpdateOwnerTypeDto } from './dtos/updateOwnerType.dto';
-import { DeleteOwnerTypeUseCase } from '../application/usecases/delete.usecase';
+import { OwnerTypePresenter } from 'src/core/ownerType/infrastructure/presenters/ownerType.presenter';
 import {
   ApiBody,
   ApiOperation,
@@ -25,7 +18,6 @@ import {
   ApiTags,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAllPaginate';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
 import {
@@ -33,6 +25,14 @@ import {
   getItemsSchemaDocs,
   PaginationSchemaDocs,
 } from 'src/shared/infrastructure/docs/paginationSwagger';
+import { CreateOwnerTypeUseCase } from '../../application/usecases/create.usecase';
+import { FindAllOwnerTypeUseCaseUseCase } from '../../application/usecases/findAll.usecase';
+import { FindOwnerTypeByIdUseCase } from '../../application/usecases/findById.usecase';
+import { UpdateOwnerTypeUseCase } from '../../application/usecases/update.usecase';
+import { DeleteOwnerTypeUseCase } from '../../application/usecases/delete.usecase';
+import { CreateOwnerTypeDto } from '../dtos/createOwnerType.dto';
+import { UpdateOwnerTypeDto } from '../dtos/updateOwnerType.dto';
+import { FindAllOwnerTypePaginatedUseCase } from '../../application/usecases/findAllPaginate';
 
 @ApiTags('Owner Address')
 @Controller('api/owner-address/v1')

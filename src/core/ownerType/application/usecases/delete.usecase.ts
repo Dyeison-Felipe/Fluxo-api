@@ -1,7 +1,7 @@
 import { UseCase } from 'src/shared/application/useCase/useCase.interface';
-import { OwnerTypeRepository } from '../../domain/ownerType.repository';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
+import { OwnerTypeRepository } from '../../domain/repository/ownerType.repository';
 
 export type Input = {
   id: number;

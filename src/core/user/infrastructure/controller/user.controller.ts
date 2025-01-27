@@ -1,14 +1,14 @@
 import { Body, Controller, Post, Put, Res } from '@nestjs/common';
-import { CreateUserUseCase } from '../application/usecase/create.usecase';
-import { CreateUserDto } from './dtos/createUser.dto';
-import { UserPresenter } from 'src/shared/infrastructure/presenters/user.presenter';
-import { UpdateUserDto } from './dtos/updateUser.dto';
-import { UpdateUserUseCase } from '../application/usecase/update.usecase';
+import { UserPresenter } from 'src/core/user/infrastructure/presenters/user.presenter';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { LoginUseCase } from '../application/usecase/login.usecase';
-import { LoginUserDto } from './dtos/login.dto';
-import { LoginPresenter } from 'src/shared/infrastructure/presenters/login.presenter';
+import { LoginPresenter } from 'src/core/user/infrastructure/presenters/login.presenter';
 import { FastifyReply } from 'fastify';
+import { CreateUserUseCase } from '../../application/usecase/create.usecase';
+import { UpdateUserUseCase } from '../../application/usecase/update.usecase';
+import { LoginUseCase } from '../../application/usecase/login.usecase';
+import { LoginUserDto } from '../dtos/login.dto';
+import { UpdateUserDto } from '../dtos/updateUser.dto';
+import { CreateUserDto } from '../dtos/createUser.dto';
 
 @Controller('/api/user/v1')
 export class UserController {
@@ -77,6 +77,28 @@ export class UserController {
   }
 
   @Post('/login')
+  @ApiOperation({ summary: 'LoginUser' })
+  @ApiResponse({
+    status: 201,
+    type: LoginPresenter,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Invalid body parameters',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'conflict',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'unknown error',
+  })
+  @ApiBody({ type: LoginUserDto })
   async login(
     @Res({ passthrough: true }) reply: FastifyReply,
     @Body() loginDto: LoginUserDto,

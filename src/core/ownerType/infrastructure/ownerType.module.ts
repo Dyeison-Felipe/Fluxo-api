@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CreateOwnerTypeUseCase } from '../application/usecases/create.usecase';
-import { OwnerTypeRepositoryImpl } from './repository/ownerType.repository';
-import { OwnerTypeRepository } from '../domain/ownerType.repository';
-import { OwnerTypeController } from './ownerType.controller';
+import { OwnerTypeRepositoryImpl } from './typeorm/repository/ownerType.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OwnerTypeSchema } from './ownerType.schema';
 import { FindAllOwnerTypeUseCaseUseCase } from '../application/usecases/findAll.usecase';
@@ -11,6 +9,8 @@ import { UpdateOwnerTypeUseCase } from '../application/usecases/update.usecase';
 import { DeleteOwnerTypeUseCase } from '../application/usecases/delete.usecase';
 import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAllPaginate';
 import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
+import { OwnerTypeController } from './controller/ownerType.controller';
+import { OwnerTypeRepository } from '../domain/repository/ownerType.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OwnerTypeSchema])],

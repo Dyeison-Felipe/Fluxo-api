@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateUserUseCase } from '../application/usecase/create.usecase';
-import { UserRepositoryImpl } from './user.repository';
-import { UserRepository } from '../domain/user.interface';
+import { UserRepository } from '../domain/repository/user.repository';
 import { Encryption } from 'src/shared/application/utils/encryption/encryption';
 import { EncryptionModule } from 'src/shared/infrastructure/utils/encryption/encryption.module';
-import { UserController } from './user.controller';
 import { UserSchema } from './user.schema';
 import { UpdateUserUseCase } from '../application/usecase/update.usecase';
 import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
 import { AuthModule } from 'src/shared/infrastructure/utils/auth/auth.module';
 import { LoginUseCase } from '../application/usecase/login.usecase';
 import { AuthService } from 'src/shared/application/utils/auth/auth.service';
+import { UserController } from './controller/user.controller';
+import { UserRepositoryImpl } from './typeorm/repository/user.repository';
 
 @Module({
   imports: [

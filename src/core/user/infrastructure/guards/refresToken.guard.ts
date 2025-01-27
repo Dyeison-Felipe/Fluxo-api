@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Inject } from '@nestjs/common';
 import { JwtService } from 'src/shared/application/utils/jwtService/jwtService';
 import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
 import { EnvConfig } from 'src/shared/infrastructure/envConfig/envConfig.interface';
-import { UserRepository } from '../../domain/user.interface';
+import { UserRepository } from '../../domain/repository/user.repository';
 import { LoggedUserService } from 'src/shared/application/utils/loggedUser/loggedUser';
 import { CookiesName } from 'src/shared/application/constants/cookiesName';
 import { AuthenticatePayload } from 'src/shared/application/utils/auth/auth.service';
@@ -26,7 +26,7 @@ export class RefreshTokenGuard implements CanActivate {
     const refreshToken = request.cookies[CookiesName.REFRESH_TOKEN];
 
     if (!refreshToken) {
-      throw new InvalidTokenError(ErrorMessages.INVALID_TOKEN);
+      throw new InvalidTokenError(ErrorMessages.tokenInvalid());
     }
 
     const refreshTokenSecret = this.envConfigService.getRefreshTokenSecret();
@@ -36,7 +36,7 @@ export class RefreshTokenGuard implements CanActivate {
     });
 
     if (!isRefreshTokenValid) {
-      throw new InvalidTokenError(ErrorMessages.INVALID_TOKEN);
+      throw new InvalidTokenError(ErrorMessages.tokenInvalid());
     }
 
     const jwtPayload =

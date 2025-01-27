@@ -4,9 +4,9 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ResourceNotFoundErrorFilter } from './shared/infrastructure/exeptionsFilter/resourceNotFoundFilter';
 import { ValidationPipe } from '@nestjs/common';
 import { ConflictErrorFilter } from './shared/infrastructure/exeptionsFilter/conflictExeprionErrorFilter';
-import fastifyCookie from '@fastify/cookie';
 import { UnauthorizedExceptionErrorFilter } from './shared/infrastructure/exeptionsFilter/unauthorizedExceptionErrorFilter';
 import { InvalidTokenErrorFilter } from './shared/infrastructure/exeptionsFilter/InvalidTokenErrorFilter';
+import fastifyCookie from '@fastify/cookie';
 
 export async function applyGlobalConfig(
   app: NestFastifyApplication,
@@ -42,7 +42,7 @@ export async function applyGlobalConfig(
   app.useGlobalPipes(new ValidationPipe());
 
   // Cookies config
-  await app.register(fastifyCookie, {
+  await app.register(fastifyCookie as any, {
     secret: envConfigService.getCookiesSecret(),
   });
 

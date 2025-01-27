@@ -5,8 +5,9 @@ import { AddressSchema } from 'src/core/address/infrastructure/address.schema';
 import { CompanySchema } from 'src/core/company/infrastructure/company.schema';
 import { OwnerTypeSchema } from 'src/core/ownerType/infrastructure/ownerType.schema';
 import { UserSchema } from 'src/core/user/infrastructure/user.schema';
-import { DataSource, DataSourceOptions } from 'typeorm';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { RolesSchema } from 'src/core/roles/infrastructure/roles.schema';
 
 const envConfig = new EnvConfigService(new ConfigService());
 
@@ -53,9 +54,16 @@ export const dataSourceOptions: DataSourceOptions = {
   username: envConfig.getDbUser(),
   password: envConfig.getDbPassword(),
   database: envConfig.getDbName(),
-  entities: [OwnerTypeSchema, AddressSchema, CompanySchema, UserSchema], // Certifique-se de que o caminho para os schemas está correto
-  migrations: [`${__dirname}/migrations/*.ts`], // Ajuste o caminho conforme necessário
+  entities: [
+    OwnerTypeSchema,
+    AddressSchema,
+    CompanySchema,
+    UserSchema,
+    RolesSchema,
+  ], // Certifique-se de que o caminho para os schemas está correto
+  migrations: [`${__dirname}/migrations/{.ts,*.js}`], // Ajuste o caminho conforme necessário
   synchronize: false, // Defina como false para ambientes de produção
+  migrationsRun: true,
 };
 
 // Inicializar o DataSource do TypeORM

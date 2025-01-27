@@ -48,6 +48,8 @@ export class AuthServiceImpl implements AuthService {
     setCookies,
   }: SetTokensInCookiesProps): void {
     const isSecure = this.envConfigService.getNodeEnv() === 'production';
+    const isSameSite =
+      this.envConfigService.getNodeEnv() === 'production' ? 'Strict' : 'Lax';
 
     this.setAccessTokenInCookies({ accessToken, setCookies });
 
@@ -55,7 +57,7 @@ export class AuthServiceImpl implements AuthService {
       httpOnly: true,
       secure: isSecure,
       maxAge: this.envConfigService.getRefreshExpiresIn(),
-      sameSite: 'Strict',
+      sameSite: isSameSite,
     });
   }
 
@@ -64,12 +66,14 @@ export class AuthServiceImpl implements AuthService {
     setCookies,
   }: SetAccessTokenInCookies): void {
     const isSecure = this.envConfigService.getNodeEnv() === 'production';
+    const isSameSite =
+      this.envConfigService.getNodeEnv() === 'production' ? 'Strict' : 'Lax';
 
     setCookies(CookiesName.ACCESS_TOKEN, accessToken, {
       httpOnly: true,
       secure: isSecure,
       maxAge: this.envConfigService.getExpiresIn(),
-      sameSite: 'Strict',
+      sameSite: isSameSite,
     });
   }
 

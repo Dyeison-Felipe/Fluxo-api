@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { describe } from 'node:test';
 import { Repository } from 'typeorm';
-import { OwnerTypeRepositoryImpl } from '../../ownerType.repository';
+import { OwnerTypeRepositoryImpl } from '../../../typeorm/repository/ownerType.repository';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { OwnerTypeSchema } from '../../../ownerType.schema';
 import { configDatabase } from 'src/shared/infrastructure/database/typeOrm/__test__/database.test';
