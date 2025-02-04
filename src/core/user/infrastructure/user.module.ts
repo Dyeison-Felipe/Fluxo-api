@@ -20,6 +20,7 @@ import { LoggedUserUseCase } from '../application/usecase/loggedUser.usecase';
 import { LoggedUserModule } from 'src/shared/infrastructure/utils/loggedUser/loggedUser.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtServiceModule } from 'src/shared/infrastructure/utils/jwtService/jwtNestjs.module';
+import { FindAllUserByRoleIdUseCase } from '../application/usecase/findAllUserByRoleId.usecase';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { JwtServiceModule } from 'src/shared/infrastructure/utils/jwtService/jwt
     RoleModule,
     LoggedUserModule,
     JwtServiceModule,
+    RoleModule,
   ],
   controllers: [UserController],
   providers: [
@@ -36,6 +38,7 @@ import { JwtServiceModule } from 'src/shared/infrastructure/utils/jwtService/jwt
     UpdateUserUseCase,
     LoginUseCase,
     RefreshTokenUseCase,
+    FindAllUserByRoleIdUseCase,
     {
       provide: Providers.USER_REPOSITORY_IMPL,
       useClass: UserRepositoryImpl,
@@ -82,6 +85,13 @@ import { JwtServiceModule } from 'src/shared/infrastructure/utils/jwtService/jwt
         return new LoggedUserUseCase(authService);
       },
       inject: [Providers.AUTH_SERVICE],
+    },
+    {
+      provide: FindAllUserByRoleIdUseCase,
+      useFactory: (userRepository: UserRepository, roleRepository: RoleRepository) => {
+        return new FindAllUserByRoleIdUseCase(userRepository, roleRepository);
+      },
+      inject: [Providers.USER_REPOSITORY_IMPL, Providers.ROLE_REPOSITORY],
     },
   ],
   exports: [Providers.USER_REPOSITORY_IMPL],

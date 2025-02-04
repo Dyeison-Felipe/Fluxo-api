@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { UserPresenter } from 'src/core/user/infrastructure/presenters/user.presenter';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginPresenter } from 'src/core/user/infrastructure/presenters/login.presenter';
@@ -13,16 +13,28 @@ import { RefreshTokenUseCase } from '../../application/usecase/refreshToken.usec
 import { LoggedUserUseCase } from '../../application/usecase/loggedUser.usecase';
 import { repl } from '@nestjs/core';
 import { RefreshTokenGuard } from '../guards/refresToken.guard';
+import { FindAllUserByRoleIdUseCase } from '../../application/usecase/findAllUserByRoleId.usecase';
+import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('/api/user/v1')
 export class UserController {
   constructor(
+    private readonly findAllUserByRoleIdUseCase: FindAllUserByRoleIdUseCase,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly loggedUserUseCase: LoggedUserUseCase,
   ) { }
+
+  @Get('/user-role/:roleId')
+  async findAllUserByRoleId(@Param('roleId') roleId: number, @Query() paginationDto: PaginationDto): Promise<Pagination<UserPresenter>> {
+    const {limit, page} = paginationDto;
+    const user = await this.findAllUserByRoleIdUseCase.execute({ roleId, limit, page });
+
+    return user;
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create user' })
@@ -126,11 +138,11 @@ export class UserController {
       setCookies: reply.setCookie.bind(reply),
     });
   }
-  
+
   @Post('/logout')
-	userLogout(@Res({ passthrough: true }) reply: FastifyReply): void {
-		this.loggedUserUseCase.execute({
-			clearCookies: reply.clearCookie.bind(reply),
-		});
-	}
+  userLogout(@Res({ passthrough: true }) reply: FastifyReply): void {
+    this.loggedUserUseCase.execute({
+      clearCookies: reply.clearCookie.bind(reply),
+    });
+  }
 }
