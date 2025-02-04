@@ -16,6 +16,7 @@ import { RefreshTokenGuard } from '../guards/refresToken.guard';
 import { FindAllUserByRoleIdUseCase } from '../../application/usecase/findAllUserByRoleId.usecase';
 import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { AuthGuard } from 'src/core/authGuard/authGuard.guard';
 
 @Controller('/api/user/v1')
 export class UserController {
@@ -28,6 +29,7 @@ export class UserController {
     private readonly loggedUserUseCase: LoggedUserUseCase,
   ) { }
 
+  @UseGuards(AuthGuard)
   @Get('/user-role/:roleId')
   async findAllUserByRoleId(@Param('roleId') roleId: number, @Query() paginationDto: PaginationDto): Promise<Pagination<UserPresenter>> {
     const {limit, page} = paginationDto;
