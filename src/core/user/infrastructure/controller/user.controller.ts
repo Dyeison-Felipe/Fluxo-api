@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { UserPresenter } from 'src/core/user/infrastructure/presenters/user.presenter';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 import { LoginPresenter } from 'src/core/user/infrastructure/presenters/login.presenter';
 import { FastifyReply } from 'fastify';
 import { CreateUserUseCase } from '../../application/usecase/create.usecase';
@@ -16,7 +16,8 @@ import { RefreshTokenGuard } from '../guards/refresToken.guard';
 import { FindAllUserByRoleIdUseCase } from '../../application/usecase/findAllUserByRoleId.usecase';
 import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { AuthGuard } from 'src/core/authGuard/authGuard.guard';
+import { AuthGuard } from '../guards/authGuard.guard';
+import { getItemsSchemaDocs, PaginationSchemaDocs } from 'src/shared/infrastructure/docs/paginationSwagger';
 
 @Controller('/api/user/v1')
 export class UserController {
@@ -29,6 +30,21 @@ export class UserController {
     private readonly loggedUserUseCase: LoggedUserUseCase,
   ) { }
 
+ @ApiOperation({ summary: 'Get all User per role paged' })
+  @ApiResponse({
+    status: 200,
+    schema: {
+      type: 'object',
+      properties: {
+        ...PaginationSchemaDocs,
+        ...getItemsSchemaDocs({ $ref: getSchemaPath(UserPresenter) }),
+      },
+    },
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'unknown error',
+  })
   @UseGuards(AuthGuard)
   @Get('/user-role/:roleId')
   async findAllUserByRoleId(@Param('roleId') roleId: number, @Query() paginationDto: PaginationDto): Promise<Pagination<UserPresenter>> {
@@ -130,6 +146,27 @@ export class UserController {
     return new LoginPresenter(output);
   }
 
+  @ApiOperation({ summary: 'RefreshToken user' })
+  @ApiResponse({
+    status: 200,
+    type: UserPresenter,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Invalid body parameters',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'conflict',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'unknown error',
+  })
   @HttpCode(200)
   @UseGuards(RefreshTokenGuard)
   @Post('/refresh')
@@ -141,6 +178,29 @@ export class UserController {
     });
   }
 
+  @ApiOperation({ summary: 'Logout user' })
+  @ApiResponse({
+    status: 200,
+    type: UserPresenter,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Invalid body parameters',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'conflict',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'unknown error',
+  })
+  @HttpCode(200)
+  @UseGuards(AuthGuard)
   @Post('/logout')
   userLogout(@Res({ passthrough: true }) reply: FastifyReply): void {
     this.loggedUserUseCase.execute({
