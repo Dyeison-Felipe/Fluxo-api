@@ -6,7 +6,7 @@ import { JwtService } from "src/shared/application/utils/jwtService/jwtService";
 import { Providers } from "src/shared/infrastructure/constants/moduleConstants";
 import { EnvConfig } from "src/shared/infrastructure/envConfig/envConfig.interface";
 import { LoggedUserService } from "src/shared/application/utils/loggedUser/loggedUser";
-import { UserRepository } from "../core/user/domain/repository/user.repository";
+import { UserRepository } from "../user/domain/repository/user.repository";
 
 @Injectable()
 export class AuthGuard implements CanActivate {

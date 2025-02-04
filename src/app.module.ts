@@ -13,6 +13,7 @@ import { MailServiceModule } from './shared/infrastructure/utils/mail/mail.modul
 import { RoleModule } from './core/roles/infrastructure/role.module';
 import { PageModule } from './core/pages/infrastructure/pages.module';
 import { RolesPagesModule } from './core/rolesPages/infrastructure/rolesPages.module';
+import { CnpjModule } from './shared/infrastructure/utils/cnpj/cnpj.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RolesPagesModule } from './core/rolesPages/infrastructure/rolesPages.mo
     RoleModule,
     PageModule,
     RolesPagesModule,
+    CnpjModule,
   ],
   controllers: [],
   providers: [
