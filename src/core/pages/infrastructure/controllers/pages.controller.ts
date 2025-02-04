@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put, UseGuards } from "@nestjs/common";
 import { CreatePagesUseCase } from "../../application/usecase/createPages.usecase";
 import { FindAllPagesUseCase } from "../../application/usecase/findAllPages.usecase";
 import { UpdatePageseUseCase } from "../../application/usecase/updatePages.usecase";
@@ -9,6 +9,7 @@ import { PagePresenter } from "../presenters/pages.presenter";
 import { CreatePagesDto } from "../dtos/createPages.dto";
 import { UpdatePageDto } from "../dtos/updateRole.dto";
 import { DeletePageDto } from "../dtos/deletePage.dto";
+import { AuthGuard } from "src/core/user/infrastructure/guards/authGuard.guard";
 
 @Controller('api/pages/v1')
 export class PageController {
@@ -19,6 +20,7 @@ export class PageController {
     private readonly deletePagesUseCase: DeletePagesUseCase,
   ) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all pages' })
   @ApiResponse({
@@ -40,6 +42,7 @@ export class PageController {
     return pages;
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create pages' })
   @ApiResponse({
@@ -69,6 +72,7 @@ export class PageController {
     return create;
   }
 
+  @UseGuards(AuthGuard)
   @Put()
   @ApiOperation({ summary: 'Update page' })
   @ApiResponse({
@@ -100,7 +104,8 @@ export class PageController {
     return role;
   }
 
- @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete()
   @ApiOperation({ summary: 'delete role' })
   @ApiResponse({

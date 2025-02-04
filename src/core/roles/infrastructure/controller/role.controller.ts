@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put, UseGuards } from '@nestjs/common';
 import { RolePresenter } from '../presenters/role.presenter';
 import { CreateRoleDto } from '../dtos/createRole.dto';
 import { CreateRoleUseCase } from '../../application/usecase/create.usecase';
@@ -17,6 +17,7 @@ import {
 } from 'src/shared/infrastructure/docs/paginationSwagger';
 import { DeleteRoleDto } from '../dtos/deleteRole.dto';
 import { DeleteRoleUseCase } from '../../application/usecase/deleteRole.usecase';
+import { AuthGuard } from 'src/core/user/infrastructure/guards/authGuard.guard';
 
 @Controller('api/role/v1')
 export class RoleController {
@@ -25,8 +26,9 @@ export class RoleController {
     private readonly findAllRoleUseCase: FindAllRoleUseCase,
     private readonly updateRoleUseCase: UpdateRoleUseCase,
     private readonly deleteRoleUseCase: DeleteRoleUseCase,
-  ) {}
+  ) { }
 
+  @UseGuards(AuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all roles' })
   @ApiResponse({
@@ -48,6 +50,7 @@ export class RoleController {
     return roles;
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create role' })
   @ApiResponse({
@@ -78,6 +81,7 @@ export class RoleController {
     return create;
   }
 
+  @UseGuards(AuthGuard)
   @Put()
   @ApiOperation({ summary: 'Update role' })
   @ApiResponse({
@@ -109,7 +113,8 @@ export class RoleController {
     return role;
   }
 
- @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete()
   @ApiOperation({ summary: 'delete role' })
   @ApiResponse({
