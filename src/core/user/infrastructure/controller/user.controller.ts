@@ -54,7 +54,7 @@ export class UserController {
     return user;
   }
 
-  @Post()
+  
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: 201,
@@ -77,13 +77,15 @@ export class UserController {
     description: 'unknown error',
   })
   @ApiBody({ type: CreateUserDto })
+  @UseGuards(AuthGuard)
+  @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserPresenter> {
     const user = await this.createUserUseCase.execute(createUserDto);
 
     return user;
   }
 
-  @Put()
+  
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({
     status: 201,
@@ -106,6 +108,8 @@ export class UserController {
     description: 'unknown error',
   })
   @ApiBody({ type: UpdateUserDto })
+  @UseGuards(AuthGuard)
+  @Put()
   async update(@Body() updateUserDto: UpdateUserDto): Promise<UserPresenter> {
     const updateUser = await this.updateUserUseCase.execute(updateUserDto);
 

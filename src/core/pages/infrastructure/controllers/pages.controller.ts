@@ -18,10 +18,8 @@ export class PageController {
     private readonly findAllPagesUseCase: FindAllPagesUseCase,
     private readonly updatePagesUseCase: UpdatePageseUseCase,
     private readonly deletePagesUseCase: DeletePagesUseCase,
-  ) {}
+  ) { }
 
-  @UseGuards(AuthGuard)
-  @Get()
   @ApiOperation({ summary: 'Get all pages' })
   @ApiResponse({
     status: 200,
@@ -37,13 +35,13 @@ export class PageController {
     status: 500,
     description: 'unknown error',
   })
+  @UseGuards(AuthGuard)
+  @Get()
   async findAll(): Promise<PagePresenter[]> {
     const pages = await this.findAllPagesUseCase.execute();
     return pages;
   }
 
-  @UseGuards(AuthGuard)
-  @Post()
   @ApiOperation({ summary: 'Create pages' })
   @ApiResponse({
     status: 201,
@@ -66,14 +64,14 @@ export class PageController {
     description: 'unknown error',
   })
   @ApiBody({ type: CreatePagesDto })
+  @UseGuards(AuthGuard)
+  @Post()
   async create(@Body() createPagesDto: CreatePagesDto): Promise<PagePresenter> {
     const create = await this.createPagesUseCase.execute(createPagesDto);
 
     return create;
   }
 
-  @UseGuards(AuthGuard)
-  @Put()
   @ApiOperation({ summary: 'Update page' })
   @ApiResponse({
     status: 201,
@@ -96,6 +94,8 @@ export class PageController {
     description: 'unknown error',
   })
   @ApiBody({ type: UpdatePageDto })
+  @UseGuards(AuthGuard)
+  @Put()
   async updateRole(
     @Body() updatePageDto: UpdatePageDto,
   ): Promise<PagePresenter> {
@@ -104,9 +104,7 @@ export class PageController {
     return role;
   }
 
-  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete()
   @ApiOperation({ summary: 'delete role' })
   @ApiResponse({
     status: 200,
@@ -116,6 +114,8 @@ export class PageController {
     status: 500,
     type: 'unknown error',
   })
+  @UseGuards(AuthGuard)
+  @Delete()
   async deleteRole(@Body() deleteRoleDto: DeletePageDto): Promise<void> {
     return await this.deletePagesUseCase.execute(deleteRoleDto);
   }
