@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from '@nestjs/common';
 import { RolePresenter } from '../presenters/role.presenter';
 import { CreateRoleDto } from '../dtos/createRole.dto';
 import { CreateRoleUseCase } from '../../application/usecase/create.usecase';
@@ -15,6 +15,8 @@ import {
   findAllSchemaDocs,
   getItemsSchemaDocs,
 } from 'src/shared/infrastructure/docs/paginationSwagger';
+import { DeleteRoleDto } from '../dtos/deleteRole.dto';
+import { DeleteRoleUseCase } from '../../application/usecase/deleteRole.usecase';
 
 @Controller('api/role/v1')
 export class RoleController {
@@ -22,6 +24,7 @@ export class RoleController {
     private readonly createRoleUseCase: CreateRoleUseCase,
     private readonly findAllRoleUseCase: FindAllRoleUseCase,
     private readonly updateRoleUseCase: UpdateRoleUseCase,
+    private readonly deleteRoleUseCase: DeleteRoleUseCase,
   ) {}
 
   @Get()
@@ -69,6 +72,7 @@ export class RoleController {
   })
   @ApiBody({ type: CreateRoleDto })
   async create(@Body() createRoleDto: CreateRoleDto): Promise<RolePresenter> {
+    console.log('createRoleDto', createRoleDto)
     const create = await this.createRoleUseCase.execute(createRoleDto);
 
     return create;
@@ -103,5 +107,20 @@ export class RoleController {
     const role = await this.updateRoleUseCase.execute(updateRoleDto);
 
     return role;
+  }
+
+ @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete()
+  @ApiOperation({ summary: 'delete role' })
+  @ApiResponse({
+    status: 200,
+    description: 'ok',
+  })
+  @ApiResponse({
+    status: 500,
+    type: 'unknown error',
+  })
+  async deleteRole(@Body() deleteRoleDto: DeleteRoleDto): Promise<void> {
+    return await this.deleteRoleUseCase.execute(deleteRoleDto);
   }
 }

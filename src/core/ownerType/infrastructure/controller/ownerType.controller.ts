@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { OwnerTypePresenter } from 'src/core/ownerType/infrastructure/presenters/ownerType.presenter';
 import {
@@ -33,6 +34,7 @@ import { DeleteOwnerTypeUseCase } from '../../application/usecases/delete.usecas
 import { CreateOwnerTypeDto } from '../dtos/createOwnerType.dto';
 import { UpdateOwnerTypeDto } from '../dtos/updateOwnerType.dto';
 import { FindAllOwnerTypePaginatedUseCase } from '../../application/usecases/findAllPaginate';
+import { RefreshTokenGuard } from 'src/core/user/infrastructure/guards/refresToken.guard';
 
 @ApiTags('Owner Address')
 @Controller('api/owner-address/v1')
@@ -61,6 +63,7 @@ export class OwnerTypeController {
     status: 500,
     description: 'unknown error',
   })
+  // @UseGuards(RefreshTokenGuard)
   @Get('/find-all')
   async findAll(): Promise<OwnerTypePresenter[]> {
     const list = await this.findAllUseCase.execute();
@@ -112,7 +115,7 @@ export class OwnerTypeController {
 
     return ownerAddressId;
   }
-
+  
   @Post()
   @ApiOperation({ summary: 'Create types owner' })
   @ApiResponse({

@@ -29,6 +29,13 @@ export class RoleRepositoryImpl implements RoleRepository {
     return updateRole;
   }
 
+  async delete(id: number): Promise<void> {
+
+    await this.roleRepository.delete(id);
+
+    return 
+  }
+
   async findByName(name: string): Promise<Role> {
     const existRole = await this.roleRepository.findOne({ where: { name } });
 

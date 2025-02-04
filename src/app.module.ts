@@ -11,6 +11,8 @@ import { EncryptionModule } from './shared/infrastructure/utils/encryption/encry
 import { AuthModule } from './shared/infrastructure/utils/auth/auth.module';
 import { MailServiceModule } from './shared/infrastructure/utils/mail/mail.module';
 import { RoleModule } from './core/roles/infrastructure/role.module';
+import { PageModule } from './core/pages/infrastructure/pages.module';
+import { RolesPagesModule } from './core/rolesPages/infrastructure/rolesPages.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { RoleModule } from './core/roles/infrastructure/role.module';
     AuthModule,
     MailServiceModule,
     RoleModule,
+    PageModule,
+    RolesPagesModule,
   ],
   controllers: [],
   providers: [],

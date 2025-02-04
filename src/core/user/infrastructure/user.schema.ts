@@ -1,5 +1,6 @@
+import { RolesSchema } from 'src/core/roles/infrastructure/roles.schema';
 import { AuditableSchema } from 'src/shared/infrastructure/auditable.schema';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
 export class UserSchema extends AuditableSchema {
@@ -11,4 +12,8 @@ export class UserSchema extends AuditableSchema {
 
   @Column()
   password: string;
+
+  @ManyToOne(() => RolesSchema, (role) => role.users)
+  @JoinColumn({ name: 'role' })
+  role: RolesSchema;
 }

@@ -8,6 +8,8 @@ import { UserSchema } from 'src/core/user/infrastructure/user.schema';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { RolesSchema } from 'src/core/roles/infrastructure/roles.schema';
+import { PagesSchema } from 'src/core/pages/infrastructure/pages.schema';
+import { RolePagesSchema } from 'src/core/rolesPages/infrastructure/rolesPages.schema';
 
 const envConfig = new EnvConfigService(new ConfigService());
 
@@ -60,6 +62,8 @@ export const dataSourceOptions: DataSourceOptions = {
     CompanySchema,
     UserSchema,
     RolesSchema,
+    PagesSchema,
+    RolePagesSchema,
   ], // Certifique-se de que o caminho para os schemas está correto
   migrations: [`${__dirname}/migrations/{.ts,*.js}`], // Ajuste o caminho conforme necessário
   synchronize: false, // Defina como false para ambientes de produção

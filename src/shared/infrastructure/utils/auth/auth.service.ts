@@ -67,7 +67,7 @@ export class AuthServiceImpl implements AuthService {
   }: SetAccessTokenInCookies): void {
     const isSecure = this.envConfigService.getNodeEnv() === 'production';
     const isSameSite =
-      this.envConfigService.getNodeEnv() === 'production' ? 'Strict' : 'Lax';
+      this.envConfigService.getNodeEnv() === 'production' ? 'Strict' : 'None';
 
     setCookies(CookiesName.ACCESS_TOKEN, accessToken, {
       httpOnly: true,

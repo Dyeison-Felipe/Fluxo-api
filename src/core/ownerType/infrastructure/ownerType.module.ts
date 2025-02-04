@@ -11,6 +11,7 @@ import { FindAllOwnerTypePaginatedUseCase } from '../application/usecases/findAl
 import { Providers } from 'src/shared/infrastructure/constants/moduleConstants';
 import { OwnerTypeController } from './controller/ownerType.controller';
 import { OwnerTypeRepository } from '../domain/repository/ownerType.repository';
+import { UserModule } from 'src/core/user/infrastructure/user.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OwnerTypeSchema])],

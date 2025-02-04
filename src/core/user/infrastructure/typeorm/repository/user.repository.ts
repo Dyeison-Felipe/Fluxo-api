@@ -38,4 +38,5 @@ export class UserRepositoryImpl implements UserRepository {
 
     return user;
   }
+
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { UserPresenter } from 'src/core/user/infrastructure/presenters/user.presenter';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginPresenter } from 'src/core/user/infrastructure/presenters/login.presenter';
@@ -9,6 +9,10 @@ import { LoginUseCase } from '../../application/usecase/login.usecase';
 import { LoginUserDto } from '../dtos/login.dto';
 import { UpdateUserDto } from '../dtos/updateUser.dto';
 import { CreateUserDto } from '../dtos/createUser.dto';
+import { RefreshTokenUseCase } from '../../application/usecase/refreshToken.usecase';
+import { LoggedUserUseCase } from '../../application/usecase/loggedUser.usecase';
+import { repl } from '@nestjs/core';
+import { RefreshTokenGuard } from '../guards/refresToken.guard';
 
 @Controller('/api/user/v1')
 export class UserController {
@@ -16,7 +20,9 @@ export class UserController {
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly loginUseCase: LoginUseCase,
-  ) {}
+    private readonly refreshTokenUseCase: RefreshTokenUseCase,
+    private readonly loggedUserUseCase: LoggedUserUseCase,
+  ) { }
 
   @Post()
   @ApiOperation({ summary: 'Create user' })
@@ -109,4 +115,22 @@ export class UserController {
     });
     return new LoginPresenter(output);
   }
+
+  @HttpCode(200)
+  @UseGuards(RefreshTokenGuard)
+  @Post('/refresh')
+  async refreshUserToken(
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ): Promise<void> {
+    await this.refreshTokenUseCase.execute({
+      setCookies: reply.setCookie.bind(reply),
+    });
+  }
+  
+  @Post('/logout')
+	userLogout(@Res({ passthrough: true }) reply: FastifyReply): void {
+		this.loggedUserUseCase.execute({
+			clearCookies: reply.clearCookie.bind(reply),
+		});
+	}
 }

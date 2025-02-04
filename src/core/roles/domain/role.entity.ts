@@ -1,6 +1,9 @@
+import { RolesPages } from "src/core/rolesPages/domain/rolesPages.entity";
+
 type RoleProps = {
   id?: number;
   name: string;
+  pageId?: number[];
 };
 
 export class Role {

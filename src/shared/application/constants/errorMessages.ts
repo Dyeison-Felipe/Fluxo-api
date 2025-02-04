@@ -10,4 +10,8 @@ export class ErrorMessages {
   static conflict(param: unknown) {
     return `${param} já existe`;
   }
+
+  static badRequest(param: string) {
+    return `O campo ${param} não pode estar vazio`
+  }
 }
