@@ -9,7 +9,6 @@ import { PagePresenter } from "../presenters/pages.presenter";
 import { CreatePagesDto } from "../dtos/createPages.dto";
 import { UpdatePageDto } from "../dtos/updateRole.dto";
 import { DeletePageDto } from "../dtos/deletePage.dto";
-import { AuthGuard } from "src/core/user/infrastructure/guards/authGuard.guard";
 
 @Controller('api/pages/v1')
 export class PageController {
@@ -35,7 +34,6 @@ export class PageController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Get()
   async findAll(): Promise<PagePresenter[]> {
     const pages = await this.findAllPagesUseCase.execute();
@@ -64,7 +62,6 @@ export class PageController {
     description: 'unknown error',
   })
   @ApiBody({ type: CreatePagesDto })
-  @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createPagesDto: CreatePagesDto): Promise<PagePresenter> {
     const create = await this.createPagesUseCase.execute(createPagesDto);
@@ -94,7 +91,6 @@ export class PageController {
     description: 'unknown error',
   })
   @ApiBody({ type: UpdatePageDto })
-  @UseGuards(AuthGuard)
   @Put()
   async updateRole(
     @Body() updatePageDto: UpdatePageDto,
@@ -114,7 +110,6 @@ export class PageController {
     status: 500,
     type: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Delete()
   async deleteRole(@Body() deleteRoleDto: DeletePageDto): Promise<void> {
     return await this.deletePagesUseCase.execute(deleteRoleDto);

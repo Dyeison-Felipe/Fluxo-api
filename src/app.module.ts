@@ -32,6 +32,7 @@ import { RolesPagesModule } from './core/rolesPages/infrastructure/rolesPages.mo
     RolesPagesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+  ],
 })
-export class AppModule {}
+export class AppModule { }

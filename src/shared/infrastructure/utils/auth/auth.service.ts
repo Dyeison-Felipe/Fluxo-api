@@ -58,6 +58,7 @@ export class AuthServiceImpl implements AuthService {
       secure: isSecure,
       maxAge: this.envConfigService.getRefreshExpiresIn(),
       sameSite: isSameSite,
+      path: '/'
     });
   }
 
@@ -74,6 +75,7 @@ export class AuthServiceImpl implements AuthService {
       secure: isSecure,
       maxAge: this.envConfigService.getExpiresIn(),
       sameSite: isSameSite,
+      path: '/'
     });
   }
 
@@ -85,6 +87,7 @@ export class AuthServiceImpl implements AuthService {
       secure: isProduction,
       maxAge: 0,
       sameSite: 'Strict',
+      path: '/'
     };
 
     clearCookies(CookiesName.ACCESS_TOKEN, cookieOptions);

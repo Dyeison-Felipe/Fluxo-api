@@ -9,7 +9,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { OwnerTypePresenter } from 'src/core/ownerType/infrastructure/presenters/ownerType.presenter';
 import {
@@ -34,8 +33,6 @@ import { DeleteOwnerTypeUseCase } from '../../application/usecases/delete.usecas
 import { CreateOwnerTypeDto } from '../dtos/createOwnerType.dto';
 import { UpdateOwnerTypeDto } from '../dtos/updateOwnerType.dto';
 import { FindAllOwnerTypePaginatedUseCase } from '../../application/usecases/findAllPaginate';
-import { RefreshTokenGuard } from 'src/core/user/infrastructure/guards/refresToken.guard';
-import { AuthGuard } from 'src/core/user/infrastructure/guards/authGuard.guard';
 
 @ApiTags('Owner Address')
 @Controller('api/owner-address/v1')
@@ -47,7 +44,7 @@ export class OwnerTypeController {
     private readonly updateUseCase: UpdateOwnerTypeUseCase,
     private readonly deleteUseCase: DeleteOwnerTypeUseCase,
     private readonly findAllPaginatedUseCase: FindAllOwnerTypePaginatedUseCase,
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: 'Get all types owner ' })
   @ApiResponse({
@@ -64,7 +61,6 @@ export class OwnerTypeController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Get('/find-all')
   async findAll(): Promise<OwnerTypePresenter[]> {
     const list = await this.findAllUseCase.execute();
@@ -86,7 +82,6 @@ export class OwnerTypeController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Get('/paginated')
   async findAllPaginated(
     @Query() paginationDto: PaginationDto,
@@ -111,15 +106,14 @@ export class OwnerTypeController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Get('/:id')
   async findById(@Param('id') id: number): Promise<OwnerTypePresenter> {
     const ownerAddressId = await this.findByIdUseCase.execute({ id });
 
     return ownerAddressId;
   }
-  
-  
+
+
   @ApiOperation({ summary: 'Create types owner' })
   @ApiResponse({
     status: 201,
@@ -142,7 +136,6 @@ export class OwnerTypeController {
     description: 'unknown error',
   })
   @ApiBody({ type: CreateOwnerTypeDto })
-  @UseGuards(AuthGuard)
   @Post()
   async create(
     @Body() createOwnerTypeDto: CreateOwnerTypeDto,
@@ -152,7 +145,7 @@ export class OwnerTypeController {
     return create;
   }
 
-  
+
   @ApiOperation({ summary: 'update types owner' })
   @ApiResponse({
     status: 201,
@@ -174,7 +167,6 @@ export class OwnerTypeController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Put()
   @ApiBody({ type: UpdateOwnerTypeDto })
   async update(
@@ -195,7 +187,6 @@ export class OwnerTypeController {
     type: 'unknown error',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(AuthGuard)
   @Delete('/:id')
   async delete(@Param('id') id: number): Promise<void> {
     await this.deleteUseCase.execute({ id });

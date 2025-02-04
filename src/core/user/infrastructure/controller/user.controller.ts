@@ -16,7 +16,6 @@ import { RefreshTokenGuard } from '../guards/refresToken.guard';
 import { FindAllUserByRoleIdUseCase } from '../../application/usecase/findAllUserByRoleId.usecase';
 import { PaginationDto } from 'src/shared/infrastructure/dtos/pagination.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { AuthGuard } from '../guards/authGuard.guard';
 import { getItemsSchemaDocs, PaginationSchemaDocs } from 'src/shared/infrastructure/docs/paginationSwagger';
 
 @Controller('/api/user/v1')
@@ -30,7 +29,7 @@ export class UserController {
     private readonly loggedUserUseCase: LoggedUserUseCase,
   ) { }
 
- @ApiOperation({ summary: 'Get all User per role paged' })
+  @ApiOperation({ summary: 'Get all User per role paged' })
   @ApiResponse({
     status: 200,
     schema: {
@@ -45,16 +44,16 @@ export class UserController {
     status: 500,
     description: 'unknown error',
   })
-  @UseGuards(AuthGuard)
   @Get('/user-role/:roleId')
+  
   async findAllUserByRoleId(@Param('roleId') roleId: number, @Query() paginationDto: PaginationDto): Promise<Pagination<UserPresenter>> {
-    const {limit, page} = paginationDto;
+    const { limit, page } = paginationDto;
     const user = await this.findAllUserByRoleIdUseCase.execute({ roleId, limit, page });
 
     return user;
   }
 
-  
+
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: 201,
@@ -77,7 +76,6 @@ export class UserController {
     description: 'unknown error',
   })
   @ApiBody({ type: CreateUserDto })
-  @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserPresenter> {
     const user = await this.createUserUseCase.execute(createUserDto);
@@ -85,7 +83,7 @@ export class UserController {
     return user;
   }
 
-  
+
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({
     status: 201,
@@ -108,7 +106,6 @@ export class UserController {
     description: 'unknown error',
   })
   @ApiBody({ type: UpdateUserDto })
-  @UseGuards(AuthGuard)
   @Put()
   async update(@Body() updateUserDto: UpdateUserDto): Promise<UserPresenter> {
     const updateUser = await this.updateUserUseCase.execute(updateUserDto);
@@ -172,7 +169,6 @@ export class UserController {
     description: 'unknown error',
   })
   @HttpCode(200)
-  @UseGuards(RefreshTokenGuard)
   @Post('/refresh')
   async refreshUserToken(
     @Res({ passthrough: true }) reply: FastifyReply,
@@ -204,7 +200,6 @@ export class UserController {
     description: 'unknown error',
   })
   @HttpCode(200)
-  @UseGuards(AuthGuard)
   @Post('/logout')
   userLogout(@Res({ passthrough: true }) reply: FastifyReply): void {
     this.loggedUserUseCase.execute({
