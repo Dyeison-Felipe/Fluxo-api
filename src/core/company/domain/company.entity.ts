@@ -1,24 +1,24 @@
-import { AddressEntity } from 'src/core/address/domain/address.entity';
+import { Address } from 'src/core/address/domain/address.entity';
 import { Auditable, AuditableProps } from 'src/shared/domain/auditable.entity';
 
 export type CompanyProps = AuditableProps & {
-  id: number;
+  id?: number;
   name: string;
   fantasyName: string;
   cnpj: string;
   email: string;
   phoneNumber: string;
-  addressId: AddressEntity;
+  address: Address;
 };
 
 export class Company extends Auditable {
-  id: number;
+  id?: number;
   name: string;
   fantasyName: string;
   cnpj: string;
   email: string;
   phoneNumber: string;
-  addressId: AddressEntity;
+  address: Address;
 
   constructor(props: CompanyProps) {
     super(props);
@@ -28,6 +28,6 @@ export class Company extends Auditable {
     this.cnpj = props.cnpj;
     this.email = props.email;
     this.phoneNumber = props.phoneNumber;
-    this.addressId = props.addressId;
+    this.address = props.address;
   }
 }

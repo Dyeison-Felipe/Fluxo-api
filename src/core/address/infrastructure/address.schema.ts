@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'address' })
-export class AddressSchema extends AuditableSchema {
+export class AddressSchema {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,10 +39,10 @@ export class AddressSchema extends AuditableSchema {
   @Column()
   complement: string;
 
-  @JoinColumn()
+  @JoinColumn({ name: 'ownerTypeId'})
   @ManyToOne(() => OwnerTypeSchema, (ownerAddress) => ownerAddress.address)
-  ownerAddressId: OwnerTypeSchema;
+  ownerType: OwnerTypeSchema;
 
-  @OneToOne(() => CompanySchema, (company) => company.addressId)
+  @OneToOne(() => CompanySchema, (company) => company.address)
   companyId: CompanySchema;
 }

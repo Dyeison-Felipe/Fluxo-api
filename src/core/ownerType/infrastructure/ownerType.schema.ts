@@ -10,6 +10,6 @@ export class OwnerTypeSchema extends AuditableSchema {
   @Column()
   type: string;
 
-  @OneToMany(() => AddressSchema, (address) => address.ownerAddressId)
+  @OneToMany(() => AddressSchema, (address) => address.ownerType)
   address: AddressSchema;
 }

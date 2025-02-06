@@ -1,7 +1,8 @@
+import { OwnerType } from 'src/core/ownerType/domain/ownerType.entity';
 import { Auditable, AuditableProps } from 'src/shared/domain/auditable.entity';
 
 export type AddressProps = AuditableProps & {
-  id: number;
+  id?: number;
   cep: string;
   country: string;
   state: string;
@@ -10,10 +11,11 @@ export type AddressProps = AuditableProps & {
   street: string;
   number: number;
   complement: string;
+  ownerType: OwnerType;
 };
 
-export class AddressEntity extends Auditable {
-  id: number;
+export class Address extends Auditable {
+  id?: number;
   cep: string;
   country: string;
   state: string;
@@ -22,6 +24,7 @@ export class AddressEntity extends Auditable {
   street: string;
   number: number;
   complement: string;
+  ownerType: OwnerType;
 
   constructor(props: AddressProps) {
     super(props);
@@ -34,5 +37,6 @@ export class AddressEntity extends Auditable {
     this.street = props.street;
     this.number = props.number;
     this.complement = props.complement;
+    this.ownerType = props.ownerType;
   }
 }

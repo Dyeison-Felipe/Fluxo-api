@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: "company"})
 export class CompanySchema extends AuditableSchema {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +20,7 @@ export class CompanySchema extends AuditableSchema {
   fantasyName: string;
 
   @Column()
-  cpnj: string;
+  cnpj: string;
 
   @Column()
   email: string;
@@ -29,6 +29,6 @@ export class CompanySchema extends AuditableSchema {
   phoneNumber: string;
 
   @JoinColumn({ name: 'addressId' })
-  @OneToOne(() => AddressSchema, (address) => address.companyId)
-  addressId: AddressSchema;
+  @OneToOne(() => AddressSchema, (address) => address.companyId, {cascade: ['insert']})
+  address: AddressSchema;
 }
