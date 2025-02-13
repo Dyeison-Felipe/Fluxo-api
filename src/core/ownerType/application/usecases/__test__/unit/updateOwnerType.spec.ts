@@ -1,9 +1,9 @@
-import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
 import { Input, UpdateOwnerTypeUseCase } from '../../update.usecase';
 import { OwnerType } from 'src/core/ownerType/domain/ownerType.entity';
 import { ResourceNotFoundError } from 'src/shared/application/errors/resourceNotFoundError';
 import { ConflictError } from 'src/shared/application/errors/conflictExceptionError';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
+import { OwnerTypeRepository } from 'src/core/ownerType/domain/repository/ownerType.repository';
 
 const mockOwnerTypeRepository = (): Partial<OwnerTypeRepository> => ({
   findById: jest.fn(),

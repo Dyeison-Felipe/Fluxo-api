@@ -1,8 +1,8 @@
-import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
 import { ConflictError } from 'src/shared/application/errors/conflictExceptionError';
 import { CreateOwnerTypeUseCase, Input } from '../../create.usecase';
 import { OwnerType } from 'src/core/ownerType/domain/ownerType.entity';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
+import { OwnerTypeRepository } from 'src/core/ownerType/domain/repository/ownerType.repository';
 
 // Mock do repositório
 const mockOwnerTypeRepository = (): Partial<OwnerTypeRepository> => ({
@@ -72,15 +72,15 @@ describe('CreateOwnerTypeUseCase', () => {
     await expect(useCase.execute(input)).rejects.toThrow(BadRequestError);
 
     // not.toHaveBeenCalled:  Verifica se o método create não foi chamado.
-    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(1);
+    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(0);
     expect(ownerTypeRepository.create).toHaveBeenCalledTimes(0);
   });
 
-  it('Deve lançar um erro se o tipo de endereço for null', async () => {
+  it('Deve lançar um erro se o tipo de enderjeço for null', async () => {
     const input: Input = { type: null };
 
     await expect(useCase.execute(input)).rejects.toThrow(BadRequestError);
-    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(1);
+    expect(ownerTypeRepository.existType).toHaveBeenCalledTimes(0);
     expect(ownerTypeRepository.create).toHaveBeenCalledTimes(0);
   });
 

@@ -1,4 +1,4 @@
-import { OwnerTypeRepository } from 'src/core/ownerType/domain/ownerType.repository';
+import { OwnerTypeRepository } from 'src/core/ownerType/domain/repository/ownerType.repository';
 import { FindAllOwnerTypePaginatedUseCase } from '../../findAllPaginate';
 import { BadRequestError } from 'src/shared/application/errors/badRequest';
 

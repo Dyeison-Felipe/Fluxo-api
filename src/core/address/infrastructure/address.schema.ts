@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'address' })
-export class AddressSchema {
+export class AddressSchema extends AuditableSchema {
   @PrimaryGeneratedColumn()
   id: number;
 

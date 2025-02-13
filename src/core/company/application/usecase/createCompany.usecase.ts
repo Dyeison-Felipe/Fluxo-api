@@ -50,9 +50,9 @@ export class CreateCompanyUseCase implements UseCase<Input, Output> {
         number: input.address.number,
         complement: input.address.complement,
         ownerType: existOwnerType,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null,
+        createdAt: undefined,
+        updatedAt: undefined,
+        deletedAt: undefined
       },
     });
 
